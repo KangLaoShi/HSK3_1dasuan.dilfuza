@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HSK3 第一课: 周末你有什么打算</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #FDFBF7; /* Warm neutral background */
+            color: #4A4A4A;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .zh-text {
+            font-family: 'Noto Serif SC', serif;
+        }
+        /* Chart Container Styling - Mandatory */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 250px; /* Slightly shorter for mobile */
+            max-height: 350px;
+        }
+        .tab-active {
+            border-bottom: 3px solid #D4A373;
+            color: #D4A373;
+            font-weight: bold;
+            background-color: rgba(212, 163, 115, 0.1);
+        }
+        .tab-inactive {
+            color: #9CA3AF;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .lang-label {
+            display: inline-block;
+            width: 20px;
+            margin-right: 4px;
+        }
+        /* Hide Scrollbar for horizontal scrolling areas */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals & Earth Tones (Cream #FDFBF7, Beige #FAEDCD, Sage #CCD5AE, Terra Cotta #D4A373) -->
+</head>
+<body class="bg-[#FDFBF7]">
+
+    <!-- Mobile-Optimized Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-[#D4A373]">HSK3 第一课</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <button onclick="scrollToSection('dialogue')" class="text-gray-600 hover:text-[#D4A373] px-2 py-2 rounded-md text-sm font-medium text-center">Suhbatlar</button>
+                    <button onclick="scrollToSection('vocabulary')" class="text-gray-600 hover:text-[#D4A373] px-2 py-2 rounded-md text-sm font-medium text-center">Lug'at</button>
+                    <button onclick="scrollToSection('grammar')" class="text-gray-600 hover:text-[#D4A373] px-2 py-2 rounded-md text-sm font-medium text-center">Grammatika</button>
+                    <button onclick="scrollToSection('quiz')" class="bg-[#CCD5AE] hover:bg-[#E9EDC9] text-gray-800 px-4 py-2 rounded-full text-sm font-medium transition text-center">Mashqlar</button>
+                </div>
+
+                <!-- Mobile Menu Button (Hamburger) -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-[#D4A373] focus:outline-none p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-lg absolute w-full left-0">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <button onclick="scrollToSectionMobile('dialogue')" class="block w-full text-left px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-[#D4A373]">
+                    📖 Suhbatlar (Dialogues)
+                </button>
+                <button onclick="scrollToSectionMobile('vocabulary')" class="block w-full text-left px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-[#D4A373]">
+                    📚 Lug'at (Vocabulary)
+                </button>
+                <button onclick="scrollToSectionMobile('grammar')" class="block w-full text-left px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-[#D4A373]">
+                    💡 Grammatika (Grammar)
+                </button>
+                <button onclick="scrollToSectionMobile('quiz')" class="block w-full text-left px-3 py-3 rounded-md text-base font-medium bg-[#FAEDCD] text-[#D4A373] mt-2">
+                    ✍️ Mashqlar (Quiz)
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Mobile Optimized) -->
+    <header class="bg-[#FAEDCD] py-8 md:py-12">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <!-- Super Title & Subtitle -->
+            <p class="text-[#D4A373] font-bold text-lg mb-1 tracking-wide">HSK3 第一课</p>
+            <p class="text-gray-500 italic mb-4 font-medium">Dilfuza Kāng lǎo shī bilan xitoy tilini o'rganmiz</p>
+            
+            <h1 class="text-3xl md:text-5xl font-bold text-[#D4A373] mb-3">周末你有什么打算</h1>
+            <h2 class="text-lg md:text-2xl text-gray-700 mb-4 leading-snug">
+                🇺🇿 Rejalar va Sayohat<br>
+                <span class="text-sm md:text-lg text-gray-500 font-normal">🇬🇧 Plans & Travel | 🇷🇺 Планы и путешествия</span>
+            </h2>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-3 md:px-4 py-6 space-y-12">
+
+        <!-- SECTION 1: INTERACTIVE DIALOGUE -->
+        <section id="dialogue" class="scroll-mt-24">
+            <div class="text-center mb-6">
+                <h3 class="text-xl font-bold text-gray-800">1. Suhbatlar (Dialogues)</h3>
+                
+                <!-- Floating Controls for Mobile -->
+                <div class="flex justify-center gap-3 mt-4 sticky top-20 z-40 py-2 bg-[#FDFBF7]/95 backdrop-blur-sm w-full">
+                    <button id="togglePinyin" class="flex-1 max-w-[120px] px-3 py-2 bg-white border border-gray-300 rounded-full shadow-sm text-xs font-bold active:bg-gray-100 transition" onclick="toggleVisibility('pinyin')">Pinyin</button>
+                    <button id="toggleTrans" class="flex-1 max-w-[120px] px-3 py-2 bg-white border border-gray-300 rounded-full shadow-sm text-xs font-bold active:bg-gray-100 transition" onclick="toggleVisibility('translation')">
+                        Tarjima
+                    </button>
+                </div>
+            </div>
+
+            <!-- Text Content Wrapper -->
+            <div class="max-w-3xl mx-auto space-y-6">
+                
+                <!-- Dialogue Block 1 -->
+                <div class="bg-white rounded-xl shadow-md p-4 md:p-6 space-y-4 border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 bg-[#D4A373] text-white text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-br-lg">Part 1: Weekend Plans</div>
+                    
+                    <!-- Dialogue Item 1.1 -->
+                    <div class="flex gap-3 items-start mt-4">
+                        <div class="w-10 h-10 rounded-full bg-[#E9EDC9] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👩🏻</div>
+                        <div class="flex-1 bg-gray-50 rounded-r-xl rounded-bl-xl p-3 shadow-sm">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Li</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">周末你有什么打算？</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Zhōumò nǐ yǒu shénme dǎsuàn?</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1">
+                                <p>🇺🇿 Dam olish kunlarida qanday rejalaringiz bor?</p>
+                                <p>🇬🇧 What are your plans for the weekend?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Dialogue Item 1.2 -->
+                    <div class="flex gap-3 items-start flex-row-reverse">
+                        <div class="w-10 h-10 rounded-full bg-[#FAEDCD] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👨🏻</div>
+                        <div class="flex-1 bg-[#FEFAE0] rounded-l-xl rounded-br-xl p-3 shadow-sm text-right">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Gang</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">我早就想好了，请你吃饭、看电影、喝咖啡。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Wǒ zǎojiù xiǎnghǎo le, qǐng nǐ chīfàn, kàn diànyǐng, hē kāfēi.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1 text-left" dir="ltr">
+                                <p>🇺🇿 Men allaqachon o'ylab qo'ydim: seni ovqatlanishga, kinoga va qahva ichishga taklif qilmoqchiman.</p>
+                                <p>🇬🇧 I've already planned it: treat you to dinner, watch a movie, and drink coffee.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Dialogue Item 1.3 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 rounded-full bg-[#E9EDC9] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👩🏻</div>
+                        <div class="flex-1 bg-gray-50 rounded-r-xl rounded-bl-xl p-3 shadow-sm">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Li</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">请我？</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Qǐng wǒ?</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1">
+                                <p>🇺🇿 Meni-ya?</p>
+                                <p>🇬🇧 Treat me?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Dialogue Item 1.4 -->
+                    <div class="flex gap-3 items-start flex-row-reverse">
+                        <div class="w-10 h-10 rounded-full bg-[#FAEDCD] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👨🏻</div>
+                        <div class="flex-1 bg-[#FEFAE0] rounded-l-xl rounded-br-xl p-3 shadow-sm text-right">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Gang</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">是啊，我已经找好饭馆了，电影票也买好了。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Shì a, wǒ yǐjīng zhǎohǎo fànguǎn le, diànyǐng piào yě mǎihǎo le.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1 text-left">
+                                <p>🇺🇿 Ha, men allaqachon restoranni topib qo'ydim, kino chiptalarini ham sotib oldim.</p>
+                                <p>🇬🇧 Yes, I've already found a restaurant and bought the movie tickets.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Dialogue Item 1.5 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 rounded-full bg-[#E9EDC9] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👩🏻</div>
+                        <div class="flex-1 bg-gray-50 rounded-r-xl rounded-bl-xl p-3 shadow-sm">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Li</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">我还没想好要不要跟你去呢。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Wǒ hái méi xiǎnghǎo yào bù yào gēn nǐ qù ne.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1">
+                                <p>🇺🇿 Men sen bilan borish-bormaslik haqida hali bir qarorga kelganim yo'q.</p>
+                                <p>🇬🇧 I haven't decided yet whether I want to go with you.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dialogue Block 2 -->
+                <div class="bg-white rounded-xl shadow-md p-4 md:p-6 space-y-4 border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 bg-[#E29578] text-white text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-br-lg">Part 2: At Home</div>
+                    
+                    <!-- Item 2.1 -->
+                    <div class="flex gap-3 items-start mt-4">
+                        <div class="w-10 h-10 rounded-full bg-[#E29578] flex-shrink-0 flex items-center justify-center text-lg shadow-sm text-white">👩🏻</div>
+                        <div class="flex-1 bg-gray-50 rounded-r-xl rounded-bl-xl p-3 shadow-sm">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Ona (Mother)</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">你一直玩儿电脑游戏，作业写完了吗？</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Nǐ yìzhí wánr diànnǎo yóuxì, zuòyè xiě wán le ma?</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1">
+                                <p>🇺🇿 Sen nuqul kompyuter o'yini o'ynayapsan, uy vazifangni yozib tugatdingmi?</p>
+                                <p>🇬🇧 You're always playing computer games, have you finished your homework?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 2.2 -->
+                    <div class="flex gap-3 items-start flex-row-reverse">
+                        <div class="w-10 h-10 rounded-full bg-[#FAEDCD] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👦🏻</div>
+                        <div class="flex-1 bg-[#FEFAE0] rounded-l-xl rounded-br-xl p-3 shadow-sm text-right">
+                            <p class="text-xs text-gray-500 font-bold mb-1">O'g'il (Son)</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">都写完了。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Dōu xiě wán le.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1 text-left">
+                                <p>🇺🇿 Hammasini yozib tugatdim.</p>
+                                <p>🇬🇧 I've finished it all.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 2.3 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 rounded-full bg-[#E29578] flex-shrink-0 flex items-center justify-center text-lg shadow-sm text-white">👩🏻</div>
+                        <div class="flex-1 bg-gray-50 rounded-r-xl rounded-bl-xl p-3 shadow-sm">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Ona</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">明天不是有考试吗？你怎么一点儿也不着急？</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Míngtiān bú shì yǒu kǎoshì ma? Nǐ zěnme yìdiǎnr yě bù zháojí?</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1">
+                                <p>🇺🇿 Ertaga imtihon bor emasmi? Nega hech ham xavotir olmayapsan?</p>
+                                <p>🇬🇧 Isn't there an exam tomorrow? Why aren't you worried at all?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 2.4 -->
+                    <div class="flex gap-3 items-start flex-row-reverse">
+                        <div class="w-10 h-10 rounded-full bg-[#FAEDCD] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👦🏻</div>
+                        <div class="flex-1 bg-[#FEFAE0] rounded-l-xl rounded-br-xl p-3 shadow-sm text-right">
+                            <p class="text-xs text-gray-500 font-bold mb-1">O'g'il</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">我早就复习好了。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Wǒ zǎojiù fùxí hǎo le.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1 text-left">
+                                <p>🇺🇿 Men allaqachon takrorlab bo'ldim.</p>
+                                <p>🇬🇧 I've already reviewed everything.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 2.5 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 rounded-full bg-[#E29578] flex-shrink-0 flex items-center justify-center text-lg shadow-sm text-white">👩🏻</div>
+                        <div class="flex-1 bg-gray-50 rounded-r-xl rounded-bl-xl p-3 shadow-sm">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Ona</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">那也不能一直玩儿啊。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Nà yě bù néng yìzhí wánr a.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1">
+                                <p>🇺🇿 Shunday bo'lsa ham, tinmasdan o'ynash yaramaydi-ku.</p>
+                                <p>🇬🇧 Even so, you can't play all the time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dialogue Block 3 -->
+                <div class="bg-white rounded-xl shadow-md p-4 md:p-6 space-y-4 border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 bg-[#CCD5AE] text-gray-800 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-br-lg">Part 3: Travel Plans</div>
+                    
+                    <!-- Item 3.1 -->
+                    <div class="flex gap-3 items-start mt-4">
+                        <div class="w-10 h-10 rounded-full bg-[#E9EDC9] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👩🏻</div>
+                        <div class="flex-1 bg-gray-50 rounded-r-xl rounded-bl-xl p-3 shadow-sm">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Li</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">下个月我去旅游，你能跟我一起去吗？</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Xià gè yuè wǒ qù lǚyóu, nǐ néng gēn wǒ yìqǐ qù ma?</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1">
+                                <p>🇺🇿 Keyingi oy men sayohatga boryapman, men bilan birga bora olasanmi?</p>
+                                <p>🇬🇧 I'm traveling next month, can you go with me?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 3.2 -->
+                    <div class="flex gap-3 items-start flex-row-reverse">
+                        <div class="w-10 h-10 rounded-full bg-[#FAEDCD] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👨🏻</div>
+                        <div class="flex-1 bg-[#FEFAE0] rounded-l-xl rounded-br-xl p-3 shadow-sm text-right">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Gang</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">我还没想好呢。你觉得哪儿最好玩儿？</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Wǒ hái méi xiǎnghǎo ne. Nǐ juéde nǎr zuì hǎowánr?</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1 text-left">
+                                <p>🇺🇿 Men hali o'ylab ko'rmadim. Seningcha qayer eng qiziqarli?</p>
+                                <p>🇬🇧 I haven't decided yet. Where do you think is the most fun?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 3.3 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 rounded-full bg-[#E9EDC9] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👩🏻</div>
+                        <div class="flex-1 bg-gray-50 rounded-r-xl rounded-bl-xl p-3 shadow-sm">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Li</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">南方啊，我们去年就是这个时候去的。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Nánfāng a, wǒmen qùnián jiùshì zhè ge shíhou qù de.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1">
+                                <p>🇺🇿 Janub-da, biz o'tgan yili xuddi shu vaqtda borgandik.</p>
+                                <p>🇬🇧 The South, we went there this time last year.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 3.4 -->
+                    <div class="flex gap-3 items-start flex-row-reverse">
+                        <div class="w-10 h-10 rounded-full bg-[#FAEDCD] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👨🏻</div>
+                        <div class="flex-1 bg-[#FEFAE0] rounded-l-xl rounded-br-xl p-3 shadow-sm text-right">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Gang</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">南方太热了，北方好一些，不冷也不热。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Nánfāng tài rè le, běifāng hǎo yìxiē, bù lěng yě bú rè.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1 text-left">
+                                <p>🇺🇿 Janub juda issiq, shimol yaxshiroq, sovuq ham emas, issiq ham emas.</p>
+                                <p>🇬🇧 The South is too hot, the North is better, neither cold nor hot.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dialogue Block 4 -->
+                <div class="bg-white rounded-xl shadow-md p-4 md:p-6 space-y-4 border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 bg-[#A8DADC] text-gray-800 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-br-lg">Part 4: Travel Prep</div>
+                    
+                    <!-- Item 4.1 -->
+                    <div class="flex gap-3 items-start mt-4 flex-row-reverse">
+                        <div class="w-10 h-10 rounded-full bg-[#FAEDCD] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👨🏻</div>
+                        <div class="flex-1 bg-[#FEFAE0] rounded-l-xl rounded-br-xl p-3 shadow-sm text-right">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Gang</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">水果、面包、茶都准备好了，我们还带什么？</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Shuǐguǒ, miànbāo, chá dōu zhǔnbèi hǎo le, wǒmen hái dài shénme?</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1 text-left">
+                                <p>🇺🇿 Meva, non, choy – hammasi tayyor, yana nima olamiz?</p>
+                                <p>🇬🇧 Fruit, bread, tea are all ready, what else shall we bring?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 4.2 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 rounded-full bg-[#E9EDC9] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👩🏻</div>
+                        <div class="flex-1 bg-gray-50 rounded-r-xl rounded-bl-xl p-3 shadow-sm">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Li</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">手机、电脑、地图，一个也不能少。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Shǒujī, diànnǎo, dìtú, yí gè yě bù néng shǎo.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1">
+                                <p>🇺🇿 Telefon, kompyuter, xarita – bularning birortasi ham qolib ketmasligi kerak.</p>
+                                <p>🇬🇧 Phone, computer, map, we can't miss a single one.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 4.3 -->
+                    <div class="flex gap-3 items-start flex-row-reverse">
+                        <div class="w-10 h-10 rounded-full bg-[#FAEDCD] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👨🏻</div>
+                        <div class="flex-1 bg-[#FEFAE0] rounded-l-xl rounded-br-xl p-3 shadow-sm text-right">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Gang</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">这些我昨天下午就准备好了。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Zhèxiē wǒ zuótiān xiàwǔ jiù zhǔnbèi hǎo le.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1 text-left">
+                                <p>🇺🇿 Bularni men kecha tushdan keyin tayyorlab qo'ygandim.</p>
+                                <p>🇬🇧 I prepared these yesterday afternoon.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 4.4 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 rounded-full bg-[#E9EDC9] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👩🏻</div>
+                        <div class="flex-1 bg-gray-50 rounded-r-xl rounded-bl-xl p-3 shadow-sm">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Li</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">再多带几件衣服吧。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Zài duō dài jǐ jiàn yīfu ba.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1">
+                                <p>🇺🇿 Yana bir nechta kiyim olib olaylik.</p>
+                                <p>🇬🇧 Let's bring a few more clothes.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 4.5 -->
+                    <div class="flex gap-3 items-start flex-row-reverse">
+                        <div class="w-10 h-10 rounded-full bg-[#FAEDCD] flex-shrink-0 flex items-center justify-center text-lg shadow-sm">👨🏻</div>
+                        <div class="flex-1 bg-[#FEFAE0] rounded-l-xl rounded-br-xl p-3 shadow-sm text-right">
+                            <p class="text-xs text-gray-500 font-bold mb-1">Xiao Gang</p>
+                            <p class="text-lg zh-text text-gray-800 leading-relaxed">我们是去旅游，不是搬家，还是少带一些吧。</p>
+                            <p class="text-xs text-[#D4A373] mt-1 pinyin-line hidden font-medium">Wǒmen shì qù lǚyóu, bú shì bānjiā, háishì shǎo dài yìxiē ba.</p>
+                            <div class="text-xs text-gray-600 mt-2 trans-line hidden border-t border-gray-200 pt-1 space-y-1 text-left">
+                                <p>🇺🇿 Biz sayohatga ketyapmiz, ko'chib o'tayotganimiz yo'q, keling ozroq narsa olaylik.</p>
+                                <p>🇬🇧 We are traveling, not moving house, let's bring less.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 2: VOCABULARY DASHBOARD -->
+        <section id="vocabulary" class="scroll-mt-24">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left: Chart -->
+                <div class="bg-white rounded-xl shadow-md p-4 lg:col-span-1">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Turkumlanish (Chart)</h3>
+                    <div class="chart-container">
+                        <canvas id="vocabChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Right: Word List -->
+                <div class="bg-white rounded-xl shadow-md p-4 lg:col-span-2">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Yangi So'zlar (Shengci)</h3>
+                    <div class="overflow-x-auto max-h-[400px] overflow-y-auto rounded-lg border border-gray-100">
+                        <table class="min-w-full text-left text-sm relative">
+                            <thead class="bg-[#FAEDCD] sticky top-0 z-10 shadow-sm">
+                                <tr>
+                                    <th class="px-3 py-3 font-bold text-[#D4A373]">汉字</th>
+                                    <th class="px-3 py-3 font-bold text-[#D4A373]">Pinyin</th>
+                                    <th class="px-3 py-3 font-bold text-[#D4A373]">Tarjima (Uz/En/Ru)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100" id="vocabTableBody">
+                                <!-- JS will populate this -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: GRAMMAR LAB (Mobile Optimized Tabs) -->
+        <section id="grammar" class="scroll-mt-24">
+            <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Grammatika (Grammar)</h3>
+            <p class="text-center text-gray-600 text-sm mb-6">Swipe to see rules →</p>
+
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <!-- Tabs - Horizontal Scrolling -->
+                <div class="flex overflow-x-auto whitespace-nowrap scrollbar-hide border-b border-gray-200 bg-gray-50 p-1 space-x-1">
+                    <button class="flex-shrink-0 px-4 py-3 text-sm font-medium rounded-t-md transition tab-active" id="tab-btn-1" onclick="showTab(1)">Result "好"</button>
+                    <button class="flex-shrink-0 px-4 py-3 text-sm font-medium rounded-t-md transition tab-inactive" id="tab-btn-2" onclick="showTab(2)">"早就...了"</button>
+                    <button class="flex-shrink-0 px-4 py-3 text-sm font-medium rounded-t-md transition tab-inactive" id="tab-btn-3" onclick="showTab(3)">"还没...呢"</button>
+                    <button class="flex-shrink-0 px-4 py-3 text-sm font-medium rounded-t-md transition tab-inactive" id="tab-btn-4" onclick="showTab(4)">Inkor (Negation)</button>
+                    <button class="flex-shrink-0 px-4 py-3 text-sm font-medium rounded-t-md transition tab-inactive" id="tab-btn-5" onclick="showTab(5)">"那" (Then)</button>
+                </div>
+
+                <!-- Content Area -->
+                <div class="p-4 md:p-8 min-h-[300px]">
+                    <!-- Tab 1 -->
+                    <div id="tab-content-1" class="fade-in block">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="bg-[#CCD5AE] text-[#4A4A4A] px-2 py-1 rounded text-xs font-bold uppercase">Rule</span>
+                            <span class="text-lg font-bold">Fe'l + 好 + 了</span>
+                        </div>
+                        <p class="text-gray-700 text-sm mb-4">Fe'ldan keyin "好" qo'shilsa, harakat tugallanganini va natija qoniqarli ekanligini bildiradi (tayyor bo'ldi).</p>
+                        
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 p-3 rounded-lg border-l-4 border-[#D4A373]">
+                                <p class="zh-text font-bold">我找好饭馆了。</p>
+                                <p class="text-gray-500 text-xs">🇺🇿 Restoranni topib qo'ydim.</p>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg border-l-4 border-[#D4A373]">
+                                <p class="zh-text font-bold">茶都准备好了。</p>
+                                <p class="text-gray-500 text-xs">🇺🇿 Choy tayyor bo'ldi.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2 -->
+                    <div id="tab-content-2" class="hidden fade-in">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="bg-[#E9EDC9] text-[#4A4A4A] px-2 py-1 rounded text-xs font-bold uppercase">Rule</span>
+                            <span class="text-lg font-bold">...早就...了</span>
+                        </div>
+                        <p class="text-gray-700 text-sm mb-4">Harakat yoki holat ancha oldin sodir bo'lganini yoki qaror qilinganini bildiradi ("Allaqachon").</p>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <p class="zh-text font-bold">我早就想好了。</p>
+                                <p class="text-gray-500 text-xs">🇺🇿 Men allaqachon o'ylab qo'yganman.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3 -->
+                    <div id="tab-content-3" class="hidden fade-in">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="bg-[#FAEDCD] text-[#4A4A4A] px-2 py-1 rounded text-xs font-bold uppercase">Rule</span>
+                            <span class="text-lg font-bold">还没...呢</span>
+                        </div>
+                        <p class="text-gray-700 text-sm mb-4">Hozirgi vaqtgacha biror ish bajarilmaganini ko'rsatadi ("Hali ... yo'q").</p>
+                        <div class="p-3 bg-[#FFFDF5] border border-[#FAEDCD] rounded-lg text-sm">
+                            <p class="mb-2"><span class="font-bold">A:</span> 你想好了吗？</p>
+                            <p class="text-[#D4A373]"><span class="font-bold">B:</span> 我还没想好呢。</p>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4 -->
+                    <div id="tab-content-4" class="hidden fade-in">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="bg-[#E29578] text-white px-2 py-1 rounded text-xs font-bold uppercase">Rule</span>
+                            <span class="text-lg font-bold">一...也/都...</span>
+                        </div>
+                        <p class="text-gray-700 text-sm mb-4">To'liq inkor: "Birorta ham ... yo'q" yoki "Umuman ... emas".</p>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 p-3 rounded-lg border-t-2 border-[#E29578]">
+                                <p class="zh-text font-bold">我一个苹果也不想吃。</p>
+                                <p class="text-gray-500 text-xs">🇺🇿 Bitta ham olma yemoqchi emasman.</p>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg border-t-2 border-[#E29578]">
+                                <p class="zh-text font-bold">南方一点儿都不冷。</p>
+                                <p class="text-gray-500 text-xs">🇺🇿 Janub umuman sovuq emas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 5 -->
+                    <div id="tab-content-5" class="hidden fade-in">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="bg-[#A8DADC] text-[#457B9D] px-2 py-1 rounded text-xs font-bold uppercase">Rule</span>
+                            <span class="text-lg font-bold">那 (Then)</span>
+                        </div>
+                        <p class="text-gray-700 text-sm mb-4">Gap boshida keladi va oldingi gapdan kelib chiqqan xulosani bildiradi ("Unda / U holda").</p>
+                        <div class="p-3 bg-[#F1FAEE] border border-[#A8DADC] rounded-lg text-sm">
+                            <p class="mb-1"><span class="font-bold">A:</span> 我不想去看电影。</p>
+                            <p class="text-[#457B9D]"><span class="font-bold">B:</span> <span class="font-bold">那</span>我也不去了。</p>
+                            <p class="text-xs text-gray-500 mt-1">Unda men ham bormayman.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: CULTURE & QUIZ LAYOUT -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Culture Card -->
+            <section class="bg-white rounded-xl shadow-md p-4 md:p-6 border-t-4 border-[#CCD5AE]">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Madaniyat (Culture)</h3>
+                <p class="text-gray-600 mb-4 text-xs">Xitoyda shimoliy va janubiy hududlar iqlimi keskin farq qiladi, bu sayohat rejasiga ta'sir qiladi.</p>
+                <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                    <div class="text-center">
+                        <div class="text-3xl mb-1">🌴</div>
+                        <p class="font-bold text-xs">Janub</p>
+                        <p class="text-[10px] text-gray-500">Issiq/Nam</p>
+                    </div>
+                    <div class="text-xl text-gray-300">↔️</div>
+                    <div class="text-center">
+                        <div class="text-3xl mb-1">❄️</div>
+                        <p class="font-bold text-xs">Shimol</p>
+                        <p class="text-[10px] text-gray-500">Sovuq/Quruq</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section id="quiz" class="bg-white rounded-xl shadow-md p-4 md:p-6 border-t-4 border-[#D4A373]">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Bilimingizni Sinang (Quiz)</h3>
+                <form id="quizForm" class="space-y-3 max-h-[400px] overflow-y-auto pr-1">
+                    <!-- Q1 -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">1. 周末你有什么________？</label>
+                        <select id="q1" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border focus:ring-[#D4A373] focus:border-[#D4A373]">
+                            <option value="">Tanlang...</option>
+                            <option value="wrong">电影 (dianying)</option>
+                            <option value="correct">打算 (dasuan)</option>
+                        </select>
+                    </div>
+                    <!-- Q2 -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">2. 我觉得北方________好玩儿。</label>
+                        <select id="q2" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border focus:ring-[#D4A373] focus:border-[#D4A373]">
+                            <option value="">Tanlang...</option>
+                            <option value="correct">最 (zui)</option>
+                            <option value="wrong">太 (tai)</option>
+                        </select>
+                    </div>
+                    <!-- Q3 -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">3. 我们是去旅游，不是________。</label>
+                        <select id="q3" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border focus:ring-[#D4A373] focus:border-[#D4A373]">
+                            <option value="">Tanlang...</option>
+                            <option value="wrong">准备 (zhunbei)</option>
+                            <option value="correct">搬家 (banjia)</option>
+                        </select>
+                    </div>
+                    <!-- Q4 -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">4. 那个地方一点儿________不远。</label>
+                        <select id="q4" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border focus:ring-[#D4A373] focus:border-[#D4A373]">
+                            <option value="">Tanlang...</option>
+                            <option value="correct">也 (ye)</option>
+                            <option value="wrong">太 (tai)</option>
+                        </select>
+                    </div>
+                    <!-- Q5 -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">5. A: 我不想吃。 B: ________我也不吃了。</label>
+                        <select id="q5" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border focus:ring-[#D4A373] focus:border-[#D4A373]">
+                            <option value="">Tanlang...</option>
+                            <option value="wrong">这 (zhe)</option>
+                            <option value="correct">那 (na)</option>
+                        </select>
+                    </div>
+                    <!-- Q6 -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">6. 你写完________了吗？</label>
+                        <select id="q6" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border focus:ring-[#D4A373] focus:border-[#D4A373]">
+                            <option value="">Tanlang...</option>
+                            <option value="wrong">游戏 (game)</option>
+                            <option value="correct">作业 (homework)</option>
+                        </select>
+                    </div>
+                    <!-- Q7 -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">7. 明天我要上课，不能________你们一起去玩儿。</label>
+                        <select id="q7" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border focus:ring-[#D4A373] focus:border-[#D4A373]">
+                            <option value="">Tanlang...</option>
+                            <option value="wrong">带 (bring)</option>
+                            <option value="correct">跟 (with)</option>
+                        </select>
+                    </div>
+                    <!-- Q8 -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">8. A: 你是北方人吗？ B: 不是，我是________人。</label>
+                        <select id="q8" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border focus:ring-[#D4A373] focus:border-[#D4A373]">
+                            <option value="">Tanlang...</option>
+                            <option value="correct">南方 (South)</option>
+                            <option value="wrong">西方 (West)</option>
+                        </select>
+                    </div>
+                    <!-- Q9 -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">9. 这件衣服真便宜，一点儿也不________。</label>
+                        <select id="q9" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border focus:ring-[#D4A373] focus:border-[#D4A373]">
+                            <option value="">Tanlang...</option>
+                            <option value="correct">贵 (expensive)</option>
+                            <option value="wrong">好 (good)</option>
+                        </select>
+                    </div>
+                    <!-- Q10 -->
+                    <div>
+                        <label class="block text-xs font-medium text-gray-700 mb-1">10. 我们打算去旅行，我已经________火车票了。</label>
+                        <select id="q10" class="w-full text-sm border-gray-300 rounded-md shadow-sm p-2 border focus:ring-[#D4A373] focus:border-[#D4A373]">
+                            <option value="">Tanlang...</option>
+                            <option value="correct">买好 (bought)</option>
+                            <option value="wrong">买完 (finished)</option>
+                        </select>
+                    </div>
+
+                    <button type="button" onclick="checkQuiz()" class="w-full bg-[#D4A373] text-white font-bold py-3 px-4 rounded-md hover:bg-[#C29263] transition mt-2 active:scale-95 transform">
+                        Tekshirish (Check)
+                    </button>
+                    <div id="quizResult" class="hidden text-center text-sm font-bold mt-2 pb-4"></div>
+                </form>
+            </section>
+        </div>
+
+        <footer class="text-center text-gray-400 text-[10px] py-8 pb-16">
+            <p class="mb-1">HSK 3 Standard Course - Lesson 1</p>
+            <p>© 2026 Dilfuza Kāng lǎo shī (telegram@diffila)</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- MOBILE MENU LOGIC ---
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        function scrollToSectionMobile(id) {
+            scrollToSection(id);
+            menu.classList.add('hidden'); // Close menu after click
+        }
+
+        // --- DATA ---
+        const vocabulary = [
+            // Text 1
+            { hz: '周末', py: 'zhōumò', uz: 'dam olish kunlari', en: 'weekend', ru: 'выходные', note: 'Shanba/Yakshanba' },
+            { hz: '打算', py: 'dǎsuàn', uz: 'reja / rejalashtirmoq', en: 'plan', ru: 'план', note: 'Noun/Verb' },
+            { hz: '早就', py: 'zǎojiù', uz: 'allaqachon', en: 'long ago', ru: 'давно', note: 'Adverb' },
+            { hz: '想好', py: 'xiǎnghǎo', uz: 'o\'ylab qo\'ymoq', en: 'decided', ru: 'решить', note: 'Verb' },
+            { hz: '请', py: 'qǐng', uz: 'taklif qilmoq', en: 'invite/treat', ru: 'приглашать', note: 'Verb' },
+            { hz: '饭馆', py: 'fànguǎn', uz: 'restoran', en: 'restaurant', ru: 'ресторан', note: '' },
+            { hz: '电影票', py: 'diànyǐng piào', uz: 'kino chiptasi', en: 'movie ticket', ru: 'билет', note: '' },
+            // Text 2
+            { hz: '一直', py: 'yìzhí', uz: 'doim / nuqul', en: 'always', ru: 'всегда', note: 'Adverb' },
+            { hz: '游戏', py: 'yóuxì', uz: 'o\'yin', en: 'game', ru: 'игра', note: '' },
+            { hz: '作业', py: 'zuòyè', uz: 'uy vazifasi', en: 'homework', ru: 'д/з', note: '' },
+            { hz: '着急', py: 'zháojí', uz: 'xavotir olmoq', en: 'worried', ru: 'волноваться', note: '' },
+            { hz: '复习', py: 'fùxí', uz: 'takrorlamoq', en: 'review', ru: 'повторять', note: '' },
+            { hz: '考试', py: 'kǎoshì', uz: 'imtihon', en: 'exam', ru: 'экзамен', note: '' },
+            // Text 3
+            { hz: '旅游', py: 'lǚyóu', uz: 'sayohat qilmoq', en: 'travel', ru: 'путешествовать', note: '' },
+            { hz: '觉得', py: 'juéde', uz: 'deb o\'ylamoq', en: 'think/feel', ru: 'думать', note: '' },
+            { hz: '最', py: 'zuì', uz: 'eng', en: 'most', ru: 'самый', note: '' },
+            { hz: '南方', py: 'nánfāng', uz: 'janub', en: 'south', ru: 'юг', note: '' },
+            { hz: '去年', py: 'qùnián', uz: 'o\'tgan yil', en: 'last year', ru: 'прошлый год', note: '' },
+            { hz: '太', py: 'tài', uz: 'juda', en: 'too', ru: 'слишком', note: '' },
+            { hz: '北方', py: 'běifāng', uz: 'shimol', en: 'north', ru: 'север', note: '' },
+            { hz: '冷', py: 'lěng', uz: 'sovuq', en: 'cold', ru: 'холодный', note: '' },
+            { hz: '热', py: 'rè', uz: 'issiq', en: 'hot', ru: 'жаркий', note: '' },
+            // Text 4
+            { hz: '水果', py: 'shuǐguǒ', uz: 'meva', en: 'fruit', ru: 'фрукты', note: '' },
+            { hz: '面包', py: 'miànbāo', uz: 'non', en: 'bread', ru: 'хлеб', note: '' },
+            { hz: '带', py: 'dài', uz: 'olib yurmoq', en: 'bring', ru: 'брать', note: '' },
+            { hz: '手机', py: 'shǒujī', uz: 'telefon', en: 'mobile', ru: 'телефон', note: '' },
+            { hz: '电脑', py: 'diànnǎo', uz: 'kompyuter', en: 'PC', ru: 'компьютер', note: '' },
+            { hz: '地图', py: 'dìtú', uz: 'xarita', en: 'map', ru: 'карта', note: '' },
+            { hz: '少', py: 'shǎo', uz: 'kam/oz', en: 'few', ru: 'мало', note: '' },
+            { hz: '搬家', py: 'bānjiā', uz: 'ko\'chib o\'tmoq', en: 'move house', ru: 'переезжать', note: '' },
+            { hz: '衣服', py: 'yīfu', uz: 'kiyim', en: 'clothes', ru: 'одежда', note: '' }
+        ];
+
+        // --- VOCABULARY TABLE GENERATION ---
+        const vocabTableBody = document.getElementById('vocabTableBody');
+        vocabulary.forEach((word, index) => {
+            const row = document.createElement('tr');
+            row.className = index % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF7]';
+            row.innerHTML = `
+                <td class="px-3 py-3 font-medium zh-text text-base text-gray-800">${word.hz}</td>
+                <td class="px-3 py-3 text-gray-600 font-mono text-xs">${word.py}</td>
+                <td class="px-3 py-3 text-gray-600 space-y-1">
+                    <div class="flex items-center text-xs"><span class="lang-label">🇺🇿</span>${word.uz}</div>
+                    <div class="flex items-center text-[10px] text-gray-500"><span class="lang-label">🇬🇧</span>${word.en}</div>
+                    <div class="flex items-center text-[10px] text-gray-500"><span class="lang-label">🇷🇺</span>${word.ru}</div>
+                </td>
+            `;
+            vocabTableBody.appendChild(row);
+        });
+
+        // --- CHART GENERATION ---
+        const ctx = document.getElementById('vocabChart').getContext('2d');
+        
+        const typeCounts = { 'Noun': 0, 'Verb': 0, 'Adverb/Adj': 0 };
+        vocabulary.forEach(w => {
+            if (w.note.includes('Noun') || w.note === '') typeCounts['Noun']++; // Rough estimation for chart
+            else if (w.note.includes('Verb')) typeCounts['Verb']++;
+            else typeCounts['Adverb/Adj']++;
+        });
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(typeCounts),
+                datasets: [{
+                    data: [15, 8, 7], // Approximation based on list
+                    backgroundColor: ['#FAEDCD', '#CCD5AE', '#D4A373'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 } } }
+                }
+            }
+        });
+
+        // --- INTERACTIVITY FUNCTIONS ---
+
+        function toggleVisibility(type) {
+            const elements = document.querySelectorAll(type === 'pinyin' ? '.pinyin-line' : '.trans-line');
+            elements.forEach(el => {
+                el.classList.toggle('hidden');
+            });
+            
+            const btn = document.getElementById(type === 'pinyin' ? 'togglePinyin' : 'toggleTrans');
+            if (!elements[0].classList.contains('hidden')) {
+                btn.classList.add('bg-[#FAEDCD]', 'border-[#D4A373]', 'text-[#D4A373]');
+                btn.classList.remove('bg-white', 'text-gray-600');
+            } else {
+                btn.classList.remove('bg-[#FAEDCD]', 'border-[#D4A373]', 'text-[#D4A373]');
+                btn.classList.add('bg-white', 'text-gray-600');
+            }
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            const offset = 80; // height of sticky header + padding
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = el.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+
+        function showTab(tabIndex) {
+            [1, 2, 3, 4, 5].forEach(i => {
+                const content = document.getElementById(`tab-content-${i}`);
+                const btn = document.getElementById(`tab-btn-${i}`);
+                if (content) content.classList.add('hidden');
+                if (btn) {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('tab-inactive', 'bg-transparent');
+                }
+            });
+
+            document.getElementById(`tab-content-${tabIndex}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tabIndex}`);
+            activeBtn.classList.add('tab-active');
+            activeBtn.classList.remove('tab-inactive');
+        }
+
+        function checkQuiz() {
+            // Check logic identical to previous, just ensuring UI feedback is mobile friendly
+            const ids = ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];
+            let allAnswered = true;
+            let score = 0;
+
+            ids.forEach(id => {
+                const val = document.getElementById(id).value;
+                if (!val) allAnswered = false;
+                if (val === 'correct') score++;
+            });
+            
+            const resultDiv = document.getElementById('quizResult');
+
+            if (!allAnswered) {
+                resultDiv.innerText = "⚠️ Please answer all questions / Iltimos, barcha savollarga javob bering.";
+                resultDiv.className = "text-center text-xs font-bold mt-2 text-yellow-600 block bg-yellow-50 p-2 rounded";
+                return;
+            }
+
+            const total = 10;
+            if (score === total) {
+                resultDiv.innerText = `🎉 Ajoyib! 10/10 Correct!`;
+                resultDiv.className = "text-center text-sm font-bold mt-2 text-green-700 block bg-green-50 p-2 rounded";
+            } else {
+                resultDiv.innerText = `Natija: ${score}/${total}. Try again!`;
+                resultDiv.className = "text-center text-sm font-bold mt-2 text-red-600 block bg-red-50 p-2 rounded";
+            }
+        }
+    </script>
+</body>
+</html>
